@@ -1,0 +1,28 @@
+{
+  "name": "casa-criativa",
+  "version": "1.0.0",
+  "description": "casa criativa",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/magaldistudio/Casa-Criativa.git"
+  },
+  "keywords": [],
+  "author": "magaldistudio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/magaldistudio/Casa-Criativa/issues"
+  },
+  "homepage": "https://github.com/magaldistudio/Casa-Criativa#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nunjucks": "^3.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
