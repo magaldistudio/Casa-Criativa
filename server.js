@@ -1,8 +1,15 @@
 //usei o express para criar e configurar o servidor
-const express = require("express")
-const server = express()
+const express = require("express");
+const server = express();
 
 
+/* habilitar uso do req.body */
+
+server.use(express.urlencoded({ extended: true }));
+
+const db = require("./db");
+
+/* 
 const ideas = [{
     img: "https://image.flaticon.com/icons/png/512/560/560216.png",
     title: "Curso de Programação",
@@ -56,49 +63,87 @@ const ideas = [{
 
   }
 ]
+ */
 
 //configurar arquivos estaticos(css,script,imagens)
-server.use(express.static("public"))
-
+server.use(express.static("public"));
 
 //configuração nunjucks
 
-const nunjucks = require("nunjucks")
+const nunjucks = require("nunjucks");
 nunjucks.configure("views", {
   express: server,
   noCache: true, //boolean
-})
+});
 
 //criei uma rota /
 //capturo o pedido do cliente para responder
 server.get("/", function (req, res) {
+  db.all(`SELECT * FROM ideas`, function (err, rows) {
+    if (err) {
+      console.log(err);
 
-  const reversedIdeas=[...ideas].reverse()
-
-  let lastIdeas = []
-  for (let idea of reversedIdeas) {
-    if (lastIdeas.length < 2) {
-      lastIdeas.push(idea)
+      return res.send("Erro no banco de dados !");
     }
 
-  }
+    const reversedIdeas = [...rows].reverse();
 
+    return res.render("index.html", {
+      ideas: reversedIdeas,
+    });
+  });
 
-  return res.render("index.html", {
-    ideas: lastIdeas
-  })
-})
+  server.get("/ideias", function (req, res) {
+    db.all(`SELECT * FROM ideas`, function (err, rows) {
+      if (err) {
+        console.log(err);
 
-server.get("/ideias", function (req, res) {
-  const reversedIdeas=[...ideas].reverse()
+        return res.send("Erro no banco de dados !");
+      }
 
-  return res.render("ideias.html", {
-    ideas: reversedIdeas
-  })
-})
+      const reversedIdeas = [...rows].reverse();
 
+      return res.render("ideias.html", {
+        ideas: reversedIdeas,
+      });
+    });
+  });
+});
+
+ /* inserir dados na tabela */
+
+server.post("/", function (req, res) {
+ 
+  const query = `
+
+  INSERT INTO ideas(
+
+      image,
+      title,
+      category,
+      description,
+      link
+
+  ) VALUES(?,?,?,?,?);
+`;
+
+  const values = [
+    req.body.image,
+    req.body.title,  
+    req.body.category,
+    req.body.description,
+    req.body.link,
+    ];
+
+  db.run(query, values, function (err) {
+    if (err) {
+      console.log(err);
+
+      return res.send("Erro no banco de dados !");
+    }
+    return res.redirect("/ideias")
+  });
+});
 
 //liguei meu servidor da porta 3000
-server.listen(3000)
-
-
+server.listen(3000);

@@ -293,7 +293,7 @@ form button:hover {
 
 #page-ideas header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 #page-ideas nav {
   display: flex;
@@ -326,6 +326,7 @@ form button:hover {
 section#title{
 
     margin:64px 0;
+    
 }
 section#title h1{
     text-align:center;
@@ -343,7 +344,7 @@ section#title p{
 
 section#ideas{
 
-    width: 80%;
+    width: 90%;
   max-width: 800px;
 
   margin: 0 auto;
@@ -352,12 +353,13 @@ section#ideas{
   grid-template-columns: 1fr 1fr;
 
   gap: 20px;
-
+  justify-content: space-evenly;
 
 }
 section#ideas .index{
 
     margin:0;
+    
 }
 
 #page-ideas .index {
@@ -366,9 +368,10 @@ section#ideas .index{
   box-shadow: 0 4px 16px -8px rgba(1, 1, 1, 0.2);
   border-radius: 8px;
 
-  padding: 32px;
+  padding: 20px;
   margin-bottom: 32px; 
   height: 180px;
+  width: 450px;
  
 }
 
